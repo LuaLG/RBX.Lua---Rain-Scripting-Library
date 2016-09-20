@@ -5,6 +5,12 @@
   
 return
 {
+  function truncatetable(tbl) -- quite gay
+    for i in pairs (tbl) do
+      tbl[i] = nil
+    end
+  end
+  
   -- useles but yolo
   function insertasset(type, id, player)
     local insertService = game:service'InsertService'
