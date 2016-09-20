@@ -20,6 +20,7 @@ return
       insertService:LoadAsset(id):children''[1].Parent = parent.Backpack
     else
       warn('invalid type: '..type)
+    end
   end
   
 }
