@@ -1,26 +1,15 @@
--- TODO:
-  -- Magic
-  -- Some more magic
-  -- even more magic
-  
-return
+colon = {}
+
+colon.truncateTable = function(tbl)
+  for i in pairs (tbl) do
+    tbl[i] = nil
+  end
+end
+
+
+return setmetatable({}, 
 {
-  function truncatetable(tbl) -- quite gay
-    for i in pairs (tbl) do
-      tbl[i] = nil
-    end
-  end
-  
-  -- useles but yolo
-  function insertasset(type, id, player)
-    local insertService = game:service'InsertService'
-    if type == 'hat' then
-      insertService:LoadAsset(id):children''[1].Parent = parent.Character
-    elseif type == 'gear' then
-      insertService:LoadAsset(id):children''[1].Parent = parent.Backpack
-    else
-      warn('invalid type: '..type)
-    end
-  end
-  
-}
+	__index = function(_,k) return colon[k] end,
+	__newindex = function() print'nope' end,
+	__metatable = "die faggot this shit is locked"
+})
