@@ -2,7 +2,7 @@
 -- It never went anywhere, so it's more productivity than laziness :P
 -- I'll add things here whenever I get new ideas
 
-return {
+return setmetatable({}, {__index = {
 	Utilities = setmetatable({
 		checkFriendship = function(self, type, name1, name2)
 			if not type or not name1 or not name2 then error("missing argument(s)", 2) end
@@ -30,4 +30,4 @@ return {
 			return false
 		end;
 	}, {__index = function(t, k) for i,v in pairs(t) do if i:lower() == k:lower() then return v end end end})
-}
+}, __metatable = 42})
