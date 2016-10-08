@@ -1,6 +1,15 @@
+--[[
+	Lua C API simulator in Lua
+	By Rain
+--]]
+
 local module = {}
 
+-- TODO: Make these part of the module?
+local LUA_REGISTRYINDEX = -10000
+local LUA_ENVIRONINDEX = -10001
 local LUA_GLOBALSINDEX = -10002
+local function lua_upvalueindex(i) return LUA_GLOBALSINDEX - i end
 
 --[[
 Stack:
@@ -16,6 +25,7 @@ stack = {
 
 Entry:
 A stack entry is a table containing a value, and string representation of the type of the value
+The type of the value is accessed through the ["type"] field of the table, and the value through the ["value"] field
 
 {["type"] = "type", ["value"] = value}
 {["type"] = "number", ["value"] = 1337}
@@ -93,6 +103,10 @@ module.lua_pushnumber = function(L, Number)
 	push(L, "number", Number)
 end
 
+module.lua_pushinteger = function(L, Integer)
+	push(L, "number", math.floor(Integer))
+end
+
 module.lua_pushcclosure = function(L, Function, Upvals)
 	-- todo	
 end
@@ -119,6 +133,23 @@ end
 module.lua_tointeger = function(L, index)
 	local val = index2adr(L, index)["value"]
 	return math.floor(tonumber(val)) or 0
+end
+
+------------------------------------------------------------------
+
+module.lua_isnumber = function(L, index)
+	local val = index2adr(L, index)["value"]
+	return not not tonumber(val)
+end
+
+module.lua_isstring = function(L, index)
+	local tt = index2adr(L, index)["type"]
+	return tt == "number" or tt == "string"
+end
+
+module.lua_isuserdata = function(L, index)
+	local tt = index2adr(L, index)["type"]
+	return tt == "userdata" or tt == "lightuserdata"
 end
 
 ------------------------------------------------------------------
