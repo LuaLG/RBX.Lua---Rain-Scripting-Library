@@ -1,19 +1,15 @@
 local services = {}
 
-local function CreateService(name, mt)
+local function CreateService(name, children)
 	services[name] = newproxy(true)
-	for i,v in next, mt do
-		getmetatable(services[name])[i] = v
-	end
+	getmetatable(services[name]).__index = children
 end
 
 CreateService("Garbage", {
-	__index = {
-		Destroy = function(...)
-			local args = {...}
-			-- WIP
-		end
-	}
+	Destroy = function(...)
+		local args = {...}
+		-- WIP
+	end
 })
 
 local function GetService(service)
