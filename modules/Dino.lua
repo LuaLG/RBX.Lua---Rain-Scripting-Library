@@ -1,3 +1,20 @@
+--[[
+	Still a WIP	
+	
+	Documentation:
+	
+	module.GetService(string service)
+		-	Returns a service with the name `service`
+		-	Throws an error if the service cannot be found
+		
+	`Garbage` service:
+		Garbage.Destroy(Instance object)
+			- Destroys the object and constantly renames it for obfuscation purposes (not the best)
+		
+	
+--]]
+
+
 local services = {}
 
 local function CreateService(name, children)
