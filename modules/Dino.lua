@@ -1,10 +1,27 @@
--- WIP for the summer
--- A collection of fun modules
+local services = {}
 
-local module = {}
+local function CreateService(name, mt)
+	services[name] = newproxy(true)
+	for i,v in next, mt do
+		getmetatable(services[name])[i] = v
+	end
+end
 
-module.math = {
-  
-}
+CreateService("Garbage", {
+	__index = {
+		Destroy = function(...)
+			local args = {...}
+			-- WIP
+		end
+	}
+})
 
-return module
+local function GetService(service)
+	local success, result = pcall(function() return services[service] end)
+	if success then
+		return result
+	end
+	error("'" .. service .. "' is not a valid service.")
+end
+
+return {GetService = GetService}
