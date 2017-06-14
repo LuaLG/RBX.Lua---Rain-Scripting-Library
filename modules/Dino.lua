@@ -9,9 +9,8 @@
 		
 	`Garbage` service:
 		Garbage.Collect(Instance object)
-			- Renames `object` and its children, sets all the scriptable properties of `object` and its children to their default values, and destroys the obejct
---]]
-
+			- Renames `object` and its children, sets all the scriptable properties of `object` and its children to their default values, and destroys the object
+--]
 math.randomseed(tick())
 
 local utilities = {}
