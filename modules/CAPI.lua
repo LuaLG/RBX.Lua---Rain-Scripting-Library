@@ -21,18 +21,13 @@ stack = {
 	.
 	entry_n   nth entry where n is the number of elements on stack, this is the top
 }
-
-
 Entry:
 A stack entry is a table containing a value, and string representation of the type of the value
 The type of the value is accessed through the ["type"] field of the table, and the value through the ["value"] field
-
 {["type"] = "type", ["value"] = value}
 {["type"] = "number", ["value"] = 1337}
 {["type"] = "string", ["value"] = "magic"}
 {["type"] = "function", ["value"] = function() return end}
-
-
 Example of a stack after pushing nil, and a number 400:
 stack = {
 	{["type"] = "nil", ["value"] = nil}
@@ -48,13 +43,13 @@ stack = {
 -- NOTE: Field names have been changed for readability (can be changed back to original if needed)
 
 module.global_state = {
-	registry = {},
-	mainthread = nil
+	["registry"] = {},
+	["mainthread"] = nil
 }
 
 module.lua_state = {
-	stack = {},
-	globalstate = nil
+	["stack"] = {},
+	["globalstate"] = nil
 }
 
 local function new_struct(struct)
@@ -256,5 +251,5 @@ module.luaL_newstate = function()
 	L.globalstate = GL
 	return L
 end
-		
+
 return module
