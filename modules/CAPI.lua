@@ -82,7 +82,7 @@ local function index2adr(L, idx)
 			["type"] = "table",
 			["value"] = L.globalstate.registry
 		}
-		elseif (idx == LUA_ENVIRONINDEX) then 
+	elseif (idx == LUA_ENVIRONINDEX) then 
 		-- TODO: add support for LUA_ENVIRONINDEX
 	elseif (idx < 0) then
 		if (idx < -#L.stack) then return nil end
