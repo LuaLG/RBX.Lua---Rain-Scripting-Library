@@ -71,18 +71,32 @@ local function push(L, tt, val)
 	}
 end
 
-module.lua_pop = function(L, n)
-	if n > 0 then
-		local stack_len = #L.stack
-		if n > stack_len then L.stack = {} return end
-		for i = stack_len - n + 1, stack_len do
-			L.stack[i] = nil
+module.lua_settop = function(L, n)
+	local stack_len = #L.stack
+	if idx < 0 then
+		idx = idx + stack_len + 1
+		if idx < 0 then
+			L.stack = {}
+			return
 		end
 	end
+	if idx > stack_len do
+		for i = 1, idx - stack_len do
+			push(L, "nil", nil)
+		end
+	else
+		for i = idx + 1, stack_len do
+			L.stack[i] = nil
+		end
+	end	
 end
 
 module.lua_gettop = function(L)
 	return #L.stack
+end
+	
+module.lua_pop = function(L, n)
+	module.lua_settop(L, -(n)-1)
 end
 
 ------------------------------------------------------------------
