@@ -166,6 +166,7 @@ module.lua_newthread = function(L)
 	Thread = new_struct(module.lua_state)
 	Thread.globalstate = L.globalstate
 	push(L, "thread", Thread)
+	return Thread
 end
 	
 module.lua_newtable = function(L)
