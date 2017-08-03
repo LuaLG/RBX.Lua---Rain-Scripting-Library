@@ -163,7 +163,7 @@ end
 ------------------------------------------------------------------
 		
 module.lua_newthread = function(L)
-	Thread = new_struct(module.lua_state)
+	local Thread = new_struct(module.lua_state)
 	Thread.globalstate = L.globalstate
 	push(L, "thread", Thread)
 	return Thread
@@ -250,8 +250,8 @@ end
 ------------------------------------------------------------------
 		
 module.luaL_newstate = function()
-	GL = new_struct(module.global_state)
-	L = new_struct(module.lua_state)
+	local GL = new_struct(module.global_state)
+	local L = new_struct(module.lua_state)
 	GL.mainthread = L
 	L.globalstate = GL
 	return L
