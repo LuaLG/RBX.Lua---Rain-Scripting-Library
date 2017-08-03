@@ -2,13 +2,18 @@
 -- Updated: 8/2/17
 
 -- A collection of classes that can be used to do different things.
+-- Each class should have its own module, but it's fine to put it all into one modulescript.
 -- API (coming soon).
+
+
+-- Queue class
 
 local Queue = {}
 Queue.__index = Queue
 
 function Queue.new()
 	local self = setmetatable({}, Queue)
+	
 	-- HandlerName : Function
 	self.Handlers = {}
 	-- HandlerName : Amount
@@ -104,4 +109,15 @@ function Queue:QueueHandler(Name)
 	self.CallQueue[Name] = self.CallQueue[Name] + 1
 end
 
-return {Queue = Queue}
+local Module = {
+	Queue = Queue
+}
+
+-- Can be removed; used to prevent the module from being hijacked/modified
+local Proxy = newproxy(true)
+local Metatable = getmetatable(Proxy)
+Metatable.__index = Module
+Metatable.__newindex = function() error("This table is locked.") end
+Metatable.__metatable = "This metatable is locked."
+
+return Proxy
