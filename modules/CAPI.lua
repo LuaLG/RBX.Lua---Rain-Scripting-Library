@@ -114,6 +114,10 @@ end
 module.lua_pushvalue = function(L, index)
 	L.stack[#L.stack+1] = index2adr(L, index)
 end
+	
+module.lua_newtable = function(L)
+	push(L, "table", {})		
+end
 
 ------------------------------------------------------------------
 
