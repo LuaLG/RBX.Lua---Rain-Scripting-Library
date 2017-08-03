@@ -118,6 +118,10 @@ end
 module.lua_newtable = function(L)
 	push(L, "table", {})		
 end
+	
+module.lua_newuserdata = function(L)
+	push(L, "userdata", newproxy(true))		
+end
 
 ------------------------------------------------------------------
 
@@ -138,6 +142,10 @@ module.lua_tointeger = function(L, index)
 	local val = index2adr(L, index)["value"]
 	return math.floor(tonumber(val)) or 0
 end
+	
+module.lua_touserdata = function(L, index)
+	return index2adr(L, indx)["value"]		
+end
 
 ------------------------------------------------------------------
 
@@ -154,6 +162,11 @@ end
 module.lua_isuserdata = function(L, index)
 	local tt = index2adr(L, index)["type"]
 	return tt == "userdata" or tt == "lightuserdata"
+end
+	
+-- Or should it be lua_type?
+module.lua_typename = function(L, index)
+	return index2adr(L, index)["type"]		
 end
 
 ------------------------------------------------------------------
