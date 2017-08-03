@@ -169,7 +169,9 @@ module.lua_newtable = function(L)
 end
 	
 module.lua_newuserdata = function(L)
-	push(L, "userdata", newproxy(true))		
+	local Userdata = newproxy(true)
+	push(L, "userdata", Userdata)
+	return Userdata
 end
 
 ------------------------------------------------------------------
