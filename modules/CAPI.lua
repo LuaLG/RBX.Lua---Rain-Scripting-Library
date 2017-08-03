@@ -193,7 +193,13 @@ module.lua_tointeger = function(L, index)
 end
 	
 module.lua_touserdata = function(L, index)
-	return index2adr(L, indx)["value"]		
+	local val = index2adr(L, index)
+	return ((val.type == "userdata" or val.type == "lightuserdata") and val or nil)	
+end
+	
+module.lua_tothread = function(L, index)
+	local val = index2adr(L, index)
+	return (val.type == "thread" and val or nil)	
 end
 
 ------------------------------------------------------------------
