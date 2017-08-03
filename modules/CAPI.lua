@@ -178,8 +178,7 @@ module.lua_isuserdata = function(L, index)
 	return tt == "userdata" or tt == "lightuserdata"
 end
 	
--- Or should it be lua_type?
-module.lua_typename = function(L, index)
+module.lua_type = function(L, index)
 	return index2adr(L, index)["type"]		
 end
 
