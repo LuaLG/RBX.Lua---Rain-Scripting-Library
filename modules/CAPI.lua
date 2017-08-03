@@ -106,7 +106,7 @@ module.lua_settop = function(L, idx)
 			return
 		end
 	end
-	if idx > stack_len do
+	if idx > stack_len then
 		for i = 1, idx - stack_len do
 			push(L, "nil", nil)
 		end
