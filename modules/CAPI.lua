@@ -40,10 +40,36 @@ stack = {
 }
 ]]
 
+------------------------------------------------------------------
+
+-- Struct definitions
+
+-- TODO: More fields can be added as needed
+-- NOTE: Field names have been changed for readability (can be changed back to original if needed)
 
 module.global_state = {
-	["stack"] = {}
+	registry = {},
+	mainthread = nil
 }
+
+module.lua_state = {
+	stack = {},
+	globalstate = nil
+}
+
+local function new_struct(struct)
+	local newstruct = {}
+	for i,v in next, struct do
+		if type(v) ~= "table" then
+			newstruct[i] = v
+		else
+			newstruct[i] = new_struct(v)
+		end
+	end
+	return newstruct
+end
+
+------------------------------------------------------------------
 
 -- Always returns a stack entry (or a fake one for things like GLOBALSINDEX)
 -- {["type"] = "type", ["value"] = value}
@@ -125,8 +151,21 @@ module.lua_pushcclosure = function(L, Function, Upvals)
 	-- todo	
 end
 
+module.lua_pushthread = function(L)
+	push(L, "thread", L)
+	return (L.globalstate.mainthread == L)
+end
+
 module.lua_pushvalue = function(L, index)
 	L.stack[#L.stack+1] = index2adr(L, index)
+end
+		
+------------------------------------------------------------------
+		
+module.lua_newthread = function(L)
+	Thread = new_struct(module.lua_state)
+	Thread.globalstate = L.globalstate
+	push(L, "thread", Thread)
 end
 	
 module.lua_newtable = function(L)
@@ -206,5 +245,15 @@ module.lua_setfield = function(L, index, k)
 		stk["value"][k] = index2adr(L, -1)["value"]
 	end
 end
-
+		
+------------------------------------------------------------------
+		
+module.luaL_newstate = function()
+	GL = new_struct(module.global_state)
+	L = new_struct(module.lua_state)
+	GL.mainthread = L
+	L.globalstate = GL
+	return L
+end
+		
 return module
