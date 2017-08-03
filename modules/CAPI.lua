@@ -71,7 +71,7 @@ local function push(L, tt, val)
 	}
 end
 
-module.lua_settop = function(L, n)
+module.lua_settop = function(L, idx)
 	local stack_len = #L.stack
 	if idx < 0 then
 		idx = idx + stack_len + 1
